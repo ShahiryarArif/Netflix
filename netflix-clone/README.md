@@ -24,6 +24,9 @@ Make sure you have the following installed:
 
 - [Node.js](https://nodejs.org) (LTS version recommended)
 - [npm](https://www.npmjs.com) or [yarn](https://yarnpkg.com)
+- [Next.js](https://nextjs.org) for the frontend framework.
+- [NextAuth.js](https://next-auth.js.org) for authentication.
+- [Prisma](https://www.prisma.io) as the ORM for database management. 
 - [MongoDB](https://www.mongodb.com) (local or cloud instance)
 
 ### Project Setup
