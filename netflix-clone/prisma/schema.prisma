@@ -20,7 +20,7 @@ model User {
   image     String?
   email     String?  @unique
   emailVerified DateTime?
-  hasPassword String
+  hashedPassword String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   favoriteIds  String[] @db.ObjectId
@@ -34,13 +34,13 @@ model Account {
   type        String
   provider     String
   providerAccountId String
-  refreshToken String? @db.String
-  accessToken  String? @db.String
-  expiresAt   Int?
-  tokenType   String?
+  refresh_token String? @db.String
+  access_token  String? @db.String
+  expires_at   Int?
+  token_type   String?
   scope       String?
-  idToken     String? @db.String
-  sessionState String?
+  id_token     String? @db.String
+  session_state String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -53,7 +53,7 @@ model Session {
   userId    String   @db.ObjectId
   expires   DateTime
 
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {

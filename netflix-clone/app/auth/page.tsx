@@ -1,10 +1,16 @@
 "use client";
 
 import Input from "@/components/input";
+import axios from "axios";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
+import { FaGithub } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 
 export default () => {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,6 +19,35 @@ export default () => {
   const toggleVariant = useCallback(() => {
     setVariant((prev) => (prev === "login" ? "register" : "login"));
   }, []);
+
+  const login = useCallback(async () => {
+    try {
+      await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: "/",
+      });
+
+      router.push("/");
+    } catch (error) {
+      console.error("Error logging in: ", error);
+    }
+  }, [email, password, router]);
+
+  const register = useCallback(async () => {
+    try {
+      await axios.post("/api/register", {
+        name,
+        email,
+        password,
+      });
+
+      login();
+    } catch (error) {
+      console.error("Error registering: ", error);
+    }
+  }, [name, email, password]);
 
   return (
     <div className="relative h-full w-full bg-[url('/images/hero.jpg')] bg-cover bg-center bg-fixed bg-no-repeat">
@@ -32,9 +67,17 @@ export default () => {
               <Input label="Email" id="email" type="email" onChange={(e) => setEmail(e.target.value)} value={email} />
               <Input label="Password" id="password" type="password" onChange={(e) => setPassword(e.target.value)} value={password} />
             </div>
-            <button className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition">
+            <button onClick={variant === "login" ? login : register} className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition">
               {variant === "login" ? "Login" : "Sign up"}
             </button>
+            <div className="flex flex-row items-center gap-4 mt-8 justify-center">
+              <button className="w-10 h-10 rounded-full bg-white flex items-center justify-center cursor-pointer hover:opacity-80 transition">
+                <FcGoogle size={30} />
+              </button>
+              <button className="w-10 h-10 rounded-full bg-white flex items-center justify-center cursor-pointer hover:opacity-80 transition">
+                <FaGithub size={30} />
+              </button>
+            </div>
             <p className="text-neutral-500 mt-12">
               {variant === "login" ? "First time using Netflix?" : "Already have an account?"}
               <span onClick={toggleVariant} className="text-white ml-1 hover:underline cursor-pointer">
