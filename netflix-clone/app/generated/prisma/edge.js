@@ -190,11 +190,12 @@ const config = {
     "db"
   ],
   "activeProvider": "mongodb",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "mongodb+srv://shahiryararif:12345@cluster0.bfwxjq8.mongodb.net/netflix-clone"
+        "value": null
       }
     }
   },
