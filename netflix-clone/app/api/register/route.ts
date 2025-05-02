@@ -1,12 +1,13 @@
 import { hash } from "bcrypt";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 import prismadb from "@/lib/prismadb";
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
-  const { name, email, password } = req.body;
+export async function POST(req: Request) {
+  const body = await req.json();
+  const { name, email, password } = body;
 
   if (!name || !email || !password) {
-    return res.status(422).json({ message: "Missing required fields" });
+    return NextResponse.json({ message: "Missing required fields" }, { status: 422 });
   }
 
   try {
@@ -17,7 +18,7 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
     });
 
     if (existingUser) {
-      return res.status(422).json({ message: "Email already exists" });
+      return NextResponse.json({ message: "Email already exists" }, { status: 422 });
     }
 
     const hashedPassword = await hash(password, 12);
@@ -33,9 +34,9 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
     });
     
 
-    return res.status(201).json(user);
+    return NextResponse.json(user, { status: 201 });
   } catch (error) {
     console.error("Error registering user:", error);
-    return res.status(400).json({ message: "Error registering user" });
+    return NextResponse.json({ message: "Error registering user" }, { status: 400 });
   }
 }
