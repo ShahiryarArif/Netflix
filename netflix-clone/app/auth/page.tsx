@@ -74,7 +74,7 @@ export default () => {
               <button className="w-10 h-10 rounded-full bg-white flex items-center justify-center cursor-pointer hover:opacity-80 transition">
                 <FcGoogle size={30} />
               </button>
-              <button className="w-10 h-10 rounded-full bg-white flex items-center justify-center cursor-pointer hover:opacity-80 transition">
+              <button onClick={() => signIn("github", { callbackUrl: "/" })} className="w-10 h-10 rounded-full bg-white flex items-center justify-center cursor-pointer hover:opacity-80 transition">
                 <FaGithub size={30} />
               </button>
             </div>
