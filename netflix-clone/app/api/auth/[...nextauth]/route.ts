@@ -63,6 +63,7 @@ const authOptions = {
   debug: process.env.NODE_ENV === "development",
 };
 
-const handler = NextAuth(authOptions);
-
-export { handler as GET, handler as POST };
+export const { 
+  auth, 
+  handlers: { GET, POST, PUT, DELETE },
+} = NextAuth(authOptions);
