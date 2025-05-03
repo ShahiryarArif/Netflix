@@ -1,14 +1,18 @@
-"use client";
+import { getServerSession } from "next-auth";
+import SignoutButton from "@/components/SignoutButton";
+import { redirect } from "next/navigation";
 
-import { signOut } from "next-auth/react";
+export default async function Home() {
+  const session = await getServerSession();
 
-export default function Home() {
+  if (!session) {
+    redirect('/auth');
+  }
+
   return (
     <>
-    <p className="text-2xl text-green-500">Test aaoo</p>
-    <button onClick={() => signOut()} className="bg-red-500 text-white p-4 rounded-md">
-      Sign out
-    </button>
+      <p className="text-2xl text-green-500">Welcome, {session.user?.name}!</p>
+      <SignoutButton />
     </>
   );
 }

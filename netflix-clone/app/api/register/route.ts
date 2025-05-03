@@ -3,14 +3,13 @@ import { NextResponse } from "next/server";
 import prismadb from "@/lib/prismadb";
 
 export async function POST(req: Request) {
-  const body = await req.json();
-  const { name, email, password } = body;
-
-  if (!name || !email || !password) {
-    return NextResponse.json({ message: "Missing required fields" }, { status: 422 });
-  }
-
   try {
+    const { name, email, password } = await req.json();
+  
+    if (!name || !email || !password) {
+      return NextResponse.json({ message: "Missing required fields" }, { status: 422 });
+    }
+  
     const existingUser = await prismadb.user.findUnique({
       where: {
         email,
