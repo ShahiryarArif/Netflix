@@ -1,11 +1,16 @@
+import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { compare } from "bcrypt";
 import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import prismadb from "@/lib/prismadb";
 
-const authOptions = {
+export const {
+  handlers: { GET, POST },
+  auth,
+  signIn,
+  signOut,
+} = NextAuth({
   providers: [
     Github({
       clientId: process.env.GITHUB_CLIENT_ID || "",
@@ -28,7 +33,7 @@ const authOptions = {
         }
 
         const user = await prismadb.user.findUnique({
-          where: {
+          where: { 
             email: credentials.email,
           },
         });
@@ -60,5 +65,4 @@ const authOptions = {
   adapter: PrismaAdapter(prismadb),
   secret: process.env.NEXTAUTH_SECRET,
   debug: process.env.NODE_ENV === "development",
-};
-
+});

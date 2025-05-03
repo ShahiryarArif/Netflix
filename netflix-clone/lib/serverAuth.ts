@@ -1,6 +1,7 @@
-import { auth } from "@/app/api/auth/[...nextauth]/route";
+import prismadb from "@/lib/prismadb";
+import { auth } from "@/lib/serverAuth";
 
-const serverAuth = async (req: Request) => {
+const serverAuth = async () => {
   const session = await auth();
 
   if (!session?.user?.email) {
