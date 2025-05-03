@@ -1,5 +1,5 @@
 import prismadb from "@/lib/prismadb";
-import { auth } from "@/lib/serverAuth";
+import { auth } from "@/app/api/auth/[...nextauth]/route";
 
 const serverAuth = async () => {
   const session = await auth();
