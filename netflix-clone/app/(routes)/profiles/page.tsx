@@ -20,7 +20,7 @@ export default async function Profile() {
               <div className="w-44 max-h-44 rounded-md flex items-center justify-center border-2 border-transparent group-hover:cursor-pointer group-hover:border-white overflow-hidden transition">
                 <Image src={"/images/default-blue.png"} alt="Profile" width={100} height={100} className="rounded-md w-44 max-h-44" />
               </div>
-              <div className="mt-4 text-gray-400 text-2xl text-center group-hover:text-white">User 1</div>
+              <div className="mt-4 text-gray-400 text-2xl text-center group-hover:text-white">{session?.user?.name}</div>
             </div>
           </Link>
         </div>
