@@ -1,3 +1,5 @@
+import MovieCard from "@/components/MovieCard";
+
 interface MovieListProps {
   data: Record<string, any>[];
   title: string;
@@ -13,7 +15,7 @@ const MovieList = ({ data, title }: MovieListProps) => {
         <div className="grid grid-cols-4 gap-2 md:gap-4 lg:gap-6">
           {data.map((movie, index) => (
             <div key={index} className="text-white">
-              {movie.title}
+              <MovieCard key={movie.id} data={movie} />
             </div>
           ))}
         </div>

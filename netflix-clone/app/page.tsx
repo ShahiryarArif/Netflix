@@ -2,8 +2,9 @@ import { getServerSession } from "next-auth";
 import SignoutButton from "@/components/SignoutButton";
 import { redirect } from "next/navigation";
 import Navbar from "@/components/Navbar";
-import Billboard from "./(routes)/billboard/page";
-import MovieList from "./(routes)/movielist/page";
+import MovieList from "@/components/MovieList";
+import Billboard from "@/components/BillBoard";
+import prismadb from "@/lib/prismadb"
 
 export default async function Home() {
   const session = await getServerSession();
