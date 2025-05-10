@@ -7,7 +7,6 @@ const useMoviesList = () => {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
   });
-  console.log("test  ===> ", data);
   
   return {
     data,
