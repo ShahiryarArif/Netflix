@@ -1,19 +1,53 @@
+import Image from "next/image";
+import Link from "next/link";
+import { BsFillPlayBtnFill } from "react-icons/bs";
 interface MovieCardProps {
   data: Record<string, any>;
 }
 
 export default function MovieCard({ data }: MovieCardProps) {
   return (
-    <div className="group bg-zinc-900 col-span relative h-[12vw] md:h-[20vw] lg:h-[18vw] rounded-md overflow-hidden">
-      <img
-        className="cursor-pointer object-cover transition duration shadow-xl rounded-md group-hover:opacity-90 sm:group-hover:opacity-0 delay-150"
+    <div className="group bg-zinc-900 col-span relative h-[12vw]">
+      <Image 
+        className="cursor-pointer object-cover transition duration shadow-xl rounded-md group-hover:opacity-90 sm:group-hover:opacity-0 delay-300 w-full h-[12vw]"
         src={data?.thumbnailUrl}
         alt="Movie Thumbnail"
+        fill
+        sizes="100%"
+        priority
       />
-      <div className="absolute top-0 z-10 w-full h-full transition duration-200 bg-zinc-800 opacity-0 rounded-md p-2 group-hover:bg-opacity-80 group-hover:opacity-100">
-        <p className="text-white text-xs md:text-sm lg:text-lg font-semibold truncate w-full">
-          {data?.title}
-        </p>
+      <div 
+        className="opacity-0 absolute top-0 transform duration-200 z-10 invisible sm:invisible delay-300 w-full scale-0 group-hover:scale-110 group-hover:-translate-y-[6vw] group-hover:translate-x-[2vw] group-hover:opacity-100"
+      >
+        <Image
+          className="cursor-pointer object-cover transition duration shadow-xl rounded-t-md w-full h-[12vw]"
+          src={data?.thumbnailUrl}
+          alt="Movie Hover Thumbnail"
+          fill
+          sizes="100%"
+          priority
+        />
+        <div
+          className="z-10 bg-zinc-800 p-2 lg:p-4 absolute w-full transition shadow-md rounded-b-md"
+        >
+          <div className="flex flex-row items-center gap-3">
+            <Link
+              className="cursor-pointer w-6 h-6 lg:w-10 lg:h-10 bg-white rounded-full flex justify-center items-center transition hover:bg-neutral-300"
+              href="/"
+            >
+              <BsFillPlayBtnFill size={30}/>
+            </Link>
+          </div>
+          <p className="text-green-400 font-semibold mt-4">
+            New <span className="text-white">2023</span>
+          </p>
+          <div className="flex flex-row mt-4 gap-2 items-center">
+            <p className="text-white text-[10px] lg:text-sm">{data.duration}</p>
+          </div>
+          <div className="flex flex-row mt-4 gap-2 items-center">
+            <p className="text-white text-[10px] lg:text-sm">{data.genre}</p>
+          </div>
+        </div>
       </div>
     </div>
   );
