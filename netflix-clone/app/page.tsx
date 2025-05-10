@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import MovieList from "@/components/MovieList";
 import Billboard from "@/components/BillBoard";
-import prismadb from "@/lib/prismadb"
+import prismadb from "@/lib/prismadb";
 
 export default async function Home() {
   const session = await getServerSession();
