@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { IoIosPlay } from "react-icons/io";
+import FavoriteButton from "./FavoriteButton";
 interface MovieCardProps {
   data: Record<string, any>;
 }
@@ -38,6 +39,7 @@ export default function MovieCard({ data }: MovieCardProps) {
               <IoIosPlay size={30} className="text-black"/>
             </Link>
           </div>
+          <FavoriteButton movieId={data.id} />
           <p className="text-green-400 font-semibold mt-4">
             New <span className="text-white">2023</span>
           </p>

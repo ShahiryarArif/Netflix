@@ -6,6 +6,8 @@ interface MovieListProps {
 }
 
 const MovieList = ({ data, title }: MovieListProps) => {
+  console.log("test ====> ", data, ' and ', title);
+  
   return (
     <div className="px-4 md:px-12 mt-4 space-y-8">
       <div>
@@ -13,7 +15,7 @@ const MovieList = ({ data, title }: MovieListProps) => {
           {title}
         </p>
         <div className="grid grid-cols-4 gap-2 md:gap-4 lg:gap-6">
-          {data.map((movie, index) => (
+          {data?.map((movie, index) => (
             <div key={index} className="text-white">
               <MovieCard key={movie.id} data={movie} />
             </div>
