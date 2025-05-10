@@ -1,18 +1,31 @@
-import { getServerSession } from "next-auth";
-import SignoutButton from "@/components/SignoutButton";
+"use client";
 import { redirect } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import MovieList from "@/components/MovieList";
 import Billboard from "@/components/BillBoard";
-import prismadb from "@/lib/prismadb";
+import useMoviesList from "@/hooks/useMoviesList";
+import useFavorites from "@/hooks/useFavorites";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-export default async function Home() {
-  const session = await getServerSession();
+export default function Home() {
+  // const { data: session } = useSession();
+  // const router = useRouter();
 
-  if (!session) {
-    redirect('/auth');
+  // if (!session) {
+  //   router.push("/auth");
+  // }
+
+  const { data: movies, isLoading: loadingMovies, error: moviesError } = useMoviesList();
+  const { data: favoriteMovies, isLoading: loadingFavorites, error: favoritesError } = useFavorites();
+
+  if (loadingMovies || loadingFavorites) {
+    return <div>Loading...</div>;
   }
-  const movies = await prismadb.movie.findMany();
+
+  if (moviesError || favoritesError) {
+    return <div>Error loading data</div>;
+  }
 
   return (
     <>
@@ -20,6 +33,7 @@ export default async function Home() {
       <Billboard />
       <div className="pb-40">
         <MovieList title="Trending Now" data={movies || []}/>
+        <MovieList title="My List" data={favoriteMovies || []}/>
       </div>
     </>
   );

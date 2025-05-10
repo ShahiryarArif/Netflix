@@ -5,7 +5,7 @@ export async function GET(req: Request) {
   try {
     await serverAuth();
 
-    const movies = prismadb.movie.findMany();
+    const movies = await prismadb.movie.findMany();
 
     return NextResponse.json(movies, { status: 200 });
   } catch (error) {
