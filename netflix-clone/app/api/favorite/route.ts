@@ -2,13 +2,13 @@ import serverAuth from "@/lib/serverAuth";
 import { NextResponse } from "next/server";
 import prismadb from "@/lib/prismadb";
 import { without } from "lodash";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function POST(req: Request) {
+export default async function POST(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { currentUser } = await serverAuth();
+    const { currentUser } = await serverAuth(req);
 
-    const body = await req.json();
-    const { movieId } = body;
+    const { movieId } = req.body;
 
     const existingMovie = await prismadb.movie.findUnique({
       where: {
@@ -31,20 +31,19 @@ export default async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json({ status: 200 });
+    return res.status(200);
   }
   catch (error) {
     console.log("[FAVORITE_POST]", error);
-    return NextResponse.json("Internal error", { status: 500 });
+    return res.status(500).end();
   } 
 }
 
-export async function DELETE(req: Request) {
+export async function DELETE(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { currentUser } = await serverAuth();
+    const { currentUser } = await serverAuth(req);
 
-    const body = await req.json();
-    const { movieId } = body;
+    const { movieId } = req.body;
 
     const existingMovie = await prismadb.movie.findUnique({
       where: {
@@ -69,10 +68,10 @@ export async function DELETE(req: Request) {
       },
     });
 
-    return NextResponse.json(user, { status: 200 });
+    return res.status(200).json(user);
   }
   catch (error) {
     console.log("[FAVORITE_DELETE]", error);
-    return NextResponse.json("Internal error", { status: 500 });
+    return res.status(500).end();
   } 
 }
