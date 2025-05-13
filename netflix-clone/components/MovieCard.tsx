@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { IoIosPlay } from "react-icons/io";
 import FavoriteButton from "./FavoriteButton";
+import { useRouter } from "next/navigation";
 interface MovieCardProps {
   data: Record<string, any>;
 }
@@ -34,12 +35,12 @@ export default function MovieCard({ data }: MovieCardProps) {
           <div className="flex flex-row items-center gap-3">
             <Link
               className="cursor-pointer w-6 h-6 lg:w-10 lg:h-10 bg-white rounded-full flex justify-center items-center transition hover:bg-neutral-300"
-              href="/"
+              href={`/watch/${data?.id}`}
             >
               <IoIosPlay size={30} className="text-black"/>
             </Link>
+            <FavoriteButton movieId={data.id} />
           </div>
-          <FavoriteButton movieId={data.id} />
           <p className="text-green-400 font-semibold mt-4">
             New <span className="text-white">2023</span>
           </p>
