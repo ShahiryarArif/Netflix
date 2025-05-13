@@ -1,12 +1,11 @@
 // app/api/favorites/route.ts
 import prismadb from "@/lib/prismadb";
 import serverAuth from "@/lib/serverAuth";
-import { NextApiRequest, NextApiResponse } from "next";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest) {
   try {
-    const { currentUser } = await serverAuth(req);
+    const { currentUser } = await serverAuth();
 
     if (!currentUser?.favoriteIds) {
       return NextResponse.json([], { status: 200 });
@@ -23,6 +22,6 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
     return NextResponse.json(movies, { status: 200 });
   } catch (error) {
     console.log("[FAVORITES_GET]", error);
-    return NextResponse.json("Internal error", { status: 500 });
+    return NextResponse.json({ message: "Internal error" }, { status: 500 });
   }
 }

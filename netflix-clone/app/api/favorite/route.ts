@@ -1,14 +1,14 @@
 import serverAuth from "@/lib/serverAuth";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import prismadb from "@/lib/prismadb";
 import { without } from "lodash";
-import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest) {
   try {
-    const { currentUser } = await serverAuth(req);
+    const { currentUser } = await serverAuth();
 
-    const { movieId } = req.body;
+    const body = await req.json();
+    const { movieId } = body;
 
     const existingMovie = await prismadb.movie.findUnique({
       where: {
@@ -17,7 +17,7 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
     });
 
     if (!existingMovie) {
-      return NextResponse.json("Movie not found", { status: 404 });
+      return NextResponse.json({ message: "Movie not found"}, { status: 404 });
     }
 
     const user = await prismadb.user.update({
@@ -31,19 +31,20 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
       },
     });
 
-    return res.status(200);
+    return NextResponse.json({ status: 200 });
   }
   catch (error) {
     console.log("[FAVORITE_POST]", error);
-    return res.status(500).end();
+    return NextResponse.json({ status: 500 });
   } 
 }
 
-export async function DELETE(req: NextApiRequest, res: NextApiResponse) {
+export async function DELETE(req: NextRequest,) {
   try {
-    const { currentUser } = await serverAuth(req);
+    const { currentUser } = await serverAuth();
 
-    const { movieId } = req.body;
+    const body = await req.json()
+    const { movieId } = body;
 
     const existingMovie = await prismadb.movie.findUnique({
       where: {
@@ -52,7 +53,7 @@ export async function DELETE(req: NextApiRequest, res: NextApiResponse) {
     });
 
     if (!existingMovie) {
-      return NextResponse.json("Movie not found", { status: 404 });
+      return NextResponse.json({ message: "Movie not found" }, { status: 404 });
     }
 
     const updatedFavoriteIds = without(currentUser.favoriteIds, movieId);
@@ -68,10 +69,10 @@ export async function DELETE(req: NextApiRequest, res: NextApiResponse) {
       },
     });
 
-    return res.status(200).json(user);
+    return NextResponse.json(user, { status: 200 });
   }
   catch (error) {
     console.log("[FAVORITE_DELETE]", error);
-    return res.status(500).end();
+    return NextResponse.json({ status: 500 });
   } 
 }
