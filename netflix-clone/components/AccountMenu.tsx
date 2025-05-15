@@ -1,3 +1,5 @@
+"use client"
+import useCurrentUser from "@/hooks/useCurrentUser";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 
@@ -6,7 +8,7 @@ interface AccountMenuProps {
 }
 
 export default function AccountMenu({ visible }: AccountMenuProps) {
-
+  const { data } = useCurrentUser();
   if (!visible) {
     return null;
   }
@@ -16,7 +18,7 @@ export default function AccountMenu({ visible }: AccountMenuProps) {
       <div className="flex flex-col gap-3">
         <div className="px-3 group/item flex flex-row gap-3 items-center w-full">
           <Image className="w-8 rounded-md" src="/images/default-blue.png" alt="Profile" width={30} height={30} />
-          <p className="text-white text-sm group-hover/item:underline">User Name</p>
+          <p className="text-white text-sm group-hover/item:underline">{data?.name}</p>
         </div>
         <hr className="bg-gray-600 border-0 h-px my-4" />
         <div onClick={() => signOut()} className="px-3 text-center text-white text-sm hover:underline">
