@@ -8,14 +8,16 @@ import useFavorites from "@/hooks/useFavorites";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import InfoModal from "@/components/InfoModal";
+import useInfoModal from "@/hooks/useInfoModal";
 
 export default function Home() {
-  // const { data: session } = useSession();
-  // const router = useRouter();
+  const { data: session } = useSession();
+  const router = useRouter();
+  const { isOpen, closeModal } = useInfoModal();
 
-  // if (!session) {
-  //   router.push("/auth");
-  // }
+  if (!session) {
+    router.push("/auth");
+  }
 
   const { data: movies, isLoading: loadingMovies, error: moviesError } = useMoviesList();
   const { data: favoriteMovies, isLoading: loadingFavorites, error: favoritesError } = useFavorites();
@@ -30,7 +32,7 @@ export default function Home() {
 
   return (
     <>
-      <InfoModal visible onClose={() => {}} />
+      <InfoModal visible={isOpen} onClose={closeModal} />
       <Navbar />
       <Billboard />
       <div className="pb-40">

@@ -38,7 +38,7 @@ export default function InfoModal({ visible, onClose }: InfoModalProps) {
         <div className={`${isVisible ? "scale-100" : "scale-0"} transform duration-300 relative flex-auto bg-zinc-900 drop-shadow-md`}>
           <div className="relative h-96">
             <video className="w-full brightness-[60%] object-cover h-full" poster={data?.thumbnailUrl} src={data?.videoUrl}/>
-            <div onClick={() => {}} className="cursor-pointer absolute top-3 right-3 h-10 w-10 rounded-full bg-black/70 flex items-center justify-center">
+            <div onClick={handleClose} className="cursor-pointer absolute top-3 right-3 h-10 w-10 rounded-full bg-black/70 flex items-center justify-center">
               <AiOutlineClose className="text-white" size={20}/>
             </div>
             <div className="absolute bottom-[10%] left-10">
