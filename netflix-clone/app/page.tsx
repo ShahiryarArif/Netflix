@@ -7,6 +7,7 @@ import useMoviesList from "@/hooks/useMoviesList";
 import useFavorites from "@/hooks/useFavorites";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import InfoModal from "@/components/InfoModal";
 
 export default function Home() {
   // const { data: session } = useSession();
@@ -29,6 +30,7 @@ export default function Home() {
 
   return (
     <>
+      <InfoModal visible onClose={() => {}} />
       <Navbar />
       <Billboard />
       <div className="pb-40">
